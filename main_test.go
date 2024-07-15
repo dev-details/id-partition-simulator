@@ -76,11 +76,12 @@ func createTestCSV(t *testing.T, numDocuments int, count int) *os.File {
 	return tmpfile
 }
 
-func TestHash(t *testing.T) {
+func TestHashOutputsSameValuesAsPostgres(t *testing.T) {
 	testCases := []struct {
 		input    uint32
 		expected int32
 	}{
+		// Expected values from `SELECT hashint4(input)`
 		{input: 123456789, expected: 524883300},
 		{input: 987654321, expected: -522295545},
 		{input: 1, expected: -1905060026},
