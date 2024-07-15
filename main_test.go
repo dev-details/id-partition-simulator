@@ -76,30 +76,29 @@ func createTestCSV(t *testing.T, numDocuments int, count int) *os.File {
 	return tmpfile
 }
 
-// FIXME The postgres implementation returns signed values
-//func TestHash(t *testing.T) {
-//	testCases := []struct {
-//		input    uint32
-//		expected int32
-//	}{
-//		{input: 123456789, expected: 524883300},
-//		{input: 987654321, expected: -522295545},
-//		{input: 1, expected: -1905060026},
-//		{input: 2147483647, expected: -96758253}, // 2^31 - 1
-//		{input: 42, expected: 1509752520},
-//		{input: 314159265, expected: -489000246},
-//		{input: 271828182, expected: -562529542},
-//		{input: 1618033988, expected: -1731020505},
-//		{input: 272321, expected: 235424784},
-//	}
-//
-//	for _, tc := range testCases {
-//		t.Run(fmt.Sprintf("input_%d", tc.input), func(t *testing.T) {
-//			result := hash(tc.input)
-//			assert.Equal(t, tc.expected, result, "Hash result doesn't match expected value for input %d", tc.input)
-//		})
-//	}
-//}
+func TestHash(t *testing.T) {
+	testCases := []struct {
+		input    uint32
+		expected int32
+	}{
+		{input: 123456789, expected: 524883300},
+		{input: 987654321, expected: -522295545},
+		{input: 1, expected: -1905060026},
+		{input: 2147483647, expected: -96758253}, // 2^31 - 1
+		{input: 42, expected: 1509752520},
+		{input: 314159265, expected: -489000246},
+		{input: 271828182, expected: -562529542},
+		{input: 1618033988, expected: -1731020505},
+		{input: 272321, expected: 235424784},
+	}
+
+	for _, tc := range testCases {
+		t.Run(fmt.Sprintf("input_%d", tc.input), func(t *testing.T) {
+			result := int32(hash(tc.input))
+			assert.Equal(t, tc.expected, result, "Hash result doesn't match expected value for input %d", tc.input)
+		})
+	}
+}
 
 func runProcessCSV(t *testing.T, file *os.File, userConfig Config) (Result, string, error) {
 	pw := progress.NewWriter()
