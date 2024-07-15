@@ -53,6 +53,10 @@ func main() {
 	}
 
 	config.writer.Stop()
+
+	for config.writer.IsRenderInProgress() {
+		time.Sleep(100 * time.Millisecond)
+	}
 }
 
 func parseFlags() Config {
